@@ -9,10 +9,10 @@
             margin: 0;
             padding: 0;
             font-family: 'Noto Sans KR', sans-serif;
-            background: #000; /* 깊은 우주 느낌의 블랙 */
+            background: #000; 
             color: #ffffff;
             text-align: center;
-            overflow: hidden; /* 스크롤 절대 방지 (한 화면 구성) */
+            overflow: hidden; /* 스크롤 방지 */
             height: 100vh;
             display: flex;
             align-items: center;
@@ -31,37 +31,30 @@
 
         .container {
             width: 90%;
-            max-width: 450px;
+            max-width: 480px;
             z-index: 1;
-            /* 위아래 여백을 최소화하여 한 화면에 배치 */
             display: flex;
             flex-direction: column;
             justify-content: center;
-            height: 95vh;
-        }
-
-        .main-img {
-            width: auto;
-            max-width: 80%; /* 이미지 크기 축소 */
-            max-height: 35vh; /* 세로 길이에 맞춰 자동 조절 */
-            margin: 0 auto 15px auto;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
-            display: block;
         }
 
         h1 {
-            font-size: 1.8rem;
+            font-size: 3.5rem; /* 사진이 빠진 대신 타이틀 강조 */
             margin: 0;
-            letter-spacing: 4px;
+            letter-spacing: 12px;
             font-weight: 900;
+            background: linear-gradient(to bottom, #fff 40%, #444 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(255,255,255,0.2);
         }
 
         .subtitle {
-            font-size: 0.9rem;
-            color: #888;
-            margin: 5px 0 20px 0;
-            letter-spacing: 1px;
+            font-size: 1.1rem;
+            color: #666;
+            margin: 10px 0 40px 0;
+            letter-spacing: 3px;
+            text-transform: uppercase;
         }
 
         ol {
@@ -71,39 +64,35 @@
         }
 
         li {
-            background: rgba(255, 255, 255, 0.06);
-            margin: 8px 0;
-            padding: 15px 20px;
-            font-size: 0.95rem; /* 글자 크기 살짝 줄임 */
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-            backdrop-filter: blur(5px);
+            background: rgba(255, 255, 255, 0.03);
+            margin: 12px 0;
+            padding: 20px 25px;
+            font-size: 1.1rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(10px);
             cursor: pointer;
         }
 
         li:hover {
-            background: rgba(255, 255, 255, 0.12);
-            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-5px) scale(1.02);
             border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
         }
 
-        /* 기기 높이가 낮을 경우 더 컴팩트하게 조절 */
-        @media (max-height: 600px) {
-            .main-img { max-height: 25vh; }
-            li { padding: 10px; margin: 5px 0; font-size: 0.85rem; }
-            .subtitle { margin-bottom: 10px; }
+        /* 모바일 대응 */
+        @media (max-width: 480px) {
+            h1 { font-size: 2.8rem; letter-spacing: 8px; }
+            li { padding: 18px; font-size: 1rem; }
         }
     </style>
 </head>
 <body>
-    <!-- Grok 스타일 배경용 캔버스 -->
     <canvas id="bgCanvas"></canvas>
 
     <div class="container">
-        <!-- 요청하신 로컬 파일 이름 적용 -->
-        <img src="the earth.jpg" alt="The Earth" class="main-img">
-
         <h1>MOON</h1>
         <p class="subtitle">Choose your path</p>
 
@@ -120,7 +109,7 @@
         const ctx = canvas.getContext('2d');
 
         let particles = [];
-        const particleCount = 70;
+        const particleCount = 80;
 
         function init() {
             canvas.width = window.innerWidth;
@@ -130,9 +119,9 @@
                 particles.push({
                     x: Math.random() * canvas.width,
                     y: Math.random() * canvas.height,
-                    size: Math.random() * 1.5 + 0.1,
-                    speed: Math.random() * 0.4 + 0.1, // 천천히 떨어지는 속도
-                    alpha: Math.random() * 0.8 + 0.2
+                    size: Math.random() * 2 + 0.1,
+                    speed: Math.random() * 0.5 + 0.1,
+                    alpha: Math.random() * 0.7 + 0.1
                 });
             }
         }
@@ -146,7 +135,6 @@
                 ctx.fill();
 
                 p.y += p.speed;
-                // 바닥에 닿으면 다시 위에서 생성
                 if (p.y > canvas.height) {
                     p.y = -10;
                     p.x = Math.random() * canvas.width;
@@ -155,10 +143,7 @@
             requestAnimationFrame(animate);
         }
 
-        window.addEventListener('resize', () => {
-            init();
-        });
-
+        window.addEventListener('resize', init);
         init();
         animate();
     </script>

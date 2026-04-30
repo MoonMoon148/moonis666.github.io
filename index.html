@@ -9,16 +9,17 @@
             margin: 0;
             padding: 0;
             font-family: 'Noto Sans KR', sans-serif;
-            background: #000;
-            color: #fff;
-            overflow: hidden; /* 한 화면에 고정 */
+            background: #000; /* 깊은 우주 느낌의 블랙 */
+            color: #ffffff;
+            text-align: center;
+            overflow: hidden; /* 스크롤 절대 방지 (한 화면 구성) */
             height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        /* 배경 캔버스 */
+        /* 배경 애니메이션용 캔버스 */
         #bgCanvas {
             position: fixed;
             top: 0;
@@ -30,73 +31,78 @@
 
         .container {
             width: 90%;
-            max-width: 500px; /* 가로폭을 줄여서 더 깔끔하게 */
+            max-width: 450px;
             z-index: 1;
+            /* 위아래 여백을 최소화하여 한 화면에 배치 */
             display: flex;
             flex-direction: column;
-            align-items: center;
+            justify-content: center;
+            height: 95vh;
         }
 
         .main-img {
-            width: 100%;
-            max-width: 280px; /* 모바일 배려하여 크기 조절 */
-            height: auto;
-            border-radius: 50%; /* 지구 모양에 맞게 둥글게 */
-            box-shadow: 0 0 50px rgba(0, 150, 255, 0.3); /* 푸른 빛 효과 */
-            margin-bottom: 20px;
+            width: auto;
+            max-width: 80%; /* 이미지 크기 축소 */
+            max-height: 35vh; /* 세로 길이에 맞춰 자동 조절 */
+            margin: 0 auto 15px auto;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
+            display: block;
         }
 
         h1 {
-            font-size: 2rem;
+            font-size: 1.8rem;
             margin: 0;
-            letter-spacing: 5px;
-            font-weight: 700;
+            letter-spacing: 4px;
+            font-weight: 900;
         }
 
         .subtitle {
             font-size: 0.9rem;
-            color: #666;
-            margin-bottom: 25px;
-            text-transform: uppercase;
+            color: #888;
+            margin: 5px 0 20px 0;
+            letter-spacing: 1px;
         }
 
         ol {
             list-style: none;
             padding: 0;
-            width: 100%;
+            margin: 0;
         }
 
         li {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.06);
             margin: 8px 0;
-            padding: 12px 20px;
-            font-size: 0.95rem; /* 글자 크기 줄임 */
-            border-radius: 50px; /* 알약 모양으로 세련되게 */
-            border: 1px solid rgba(255,255,255,0.1);
+            padding: 15px 20px;
+            font-size: 0.95rem; /* 글자 크기 살짝 줄임 */
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
             cursor: pointer;
-            backdrop-filter: blur(5px); /* 배경 투명 효과 */
         }
 
         li:hover {
-            background: rgba(255, 255, 255, 0.15);
-            transform: translateY(-2px);
-            border-color: rgba(255,255,255,0.4);
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-3px);
+            border-color: rgba(255, 255, 255, 0.3);
         }
 
-        /* 높이가 낮은 폰을 위한 대응 */
-        @media (max-height: 650px) {
-            .main-img { max-width: 180px; }
-            h1 { font-size: 1.5rem; }
-            li { padding: 8px 15px; font-size: 0.85rem; }
+        /* 기기 높이가 낮을 경우 더 컴팩트하게 조절 */
+        @media (max-height: 600px) {
+            .main-img { max-height: 25vh; }
+            li { padding: 10px; margin: 5px 0; font-size: 0.85rem; }
+            .subtitle { margin-bottom: 10px; }
         }
     </style>
 </head>
 <body>
+    <!-- Grok 스타일 배경용 캔버스 -->
     <canvas id="bgCanvas"></canvas>
 
     <div class="container">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Flat_earth.png/600px-Flat_earth.png" alt="Flat Earth" class="main-img">
+        <!-- 요청하신 로컬 파일 이름 적용 -->
+        <img src="the earth.jpg" alt="The Earth" class="main-img">
 
         <h1>MOON</h1>
         <p class="subtitle">Choose your path</p>
@@ -113,44 +119,46 @@
         const canvas = document.getElementById('bgCanvas');
         const ctx = canvas.getContext('2d');
 
-        let stars = [];
-        const starCount = 150;
+        let particles = [];
+        const particleCount = 70;
 
         function init() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-            stars = [];
-            for (let i = 0; i < starCount; i++) {
-                stars.push({
+            particles = [];
+            for (let i = 0; i < particleCount; i++) {
+                particles.push({
                     x: Math.random() * canvas.width,
                     y: Math.random() * canvas.height,
                     size: Math.random() * 1.5 + 0.1,
-                    speed: Math.random() * 0.4 + 0.1, // Grok처럼 천천히 떨어짐
-                    opacity: Math.random()
+                    speed: Math.random() * 0.4 + 0.1, // 천천히 떨어지는 속도
+                    alpha: Math.random() * 0.8 + 0.2
                 });
             }
         }
 
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            stars.forEach(s => {
-                ctx.fillStyle = `rgba(255, 255, 255, ${s.opacity})`;
+            particles.forEach(p => {
+                ctx.fillStyle = `rgba(255, 255, 255, ${p.alpha})`;
                 ctx.beginPath();
-                ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
                 ctx.fill();
 
-                s.y += s.speed;
-                // 화면 아래로 나가면 다시 위에서 생성
-                if (s.y > canvas.height) {
-                    s.y = -5;
-                    s.x = Math.random() * canvas.width;
+                p.y += p.speed;
+                // 바닥에 닿으면 다시 위에서 생성
+                if (p.y > canvas.height) {
+                    p.y = -10;
+                    p.x = Math.random() * canvas.width;
                 }
             });
             requestAnimationFrame(animate);
         }
 
-        window.addEventListener('resize', init);
+        window.addEventListener('resize', () => {
+            init();
+        });
+
         init();
         animate();
     </script>

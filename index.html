@@ -12,14 +12,13 @@
             background: #000; 
             color: #ffffff;
             text-align: center;
-            overflow: hidden; /* 스크롤 방지 */
+            overflow: hidden; 
             height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        /* 배경 애니메이션용 캔버스 */
         #bgCanvas {
             position: fixed;
             top: 0;
@@ -27,6 +26,19 @@
             width: 100%;
             height: 100%;
             z-index: -1;
+        }
+
+        /* 좌측 상단 달 이미지 설정 */
+        .top-left-moon {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 5vw; /* 화면 너비의 5% */
+            min-width: 40px; /* 너무 작아지지 않게 최소 크기 설정 */
+            height: auto;
+            z-index: 2;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3)); /* 은은한 달빛 효과 */
+            opacity: 0.8;
         }
 
         .container {
@@ -39,7 +51,7 @@
         }
 
         h1 {
-            font-size: 3.5rem; /* 사진이 빠진 대신 타이틀 강조 */
+            font-size: 3.5rem; 
             margin: 0;
             letter-spacing: 12px;
             font-weight: 900;
@@ -82,15 +94,18 @@
             box-shadow: 0 10px 20px rgba(0,0,0,0.5);
         }
 
-        /* 모바일 대응 */
         @media (max-width: 480px) {
             h1 { font-size: 2.8rem; letter-spacing: 8px; }
             li { padding: 18px; font-size: 1rem; }
+            .top-left-moon { width: 10vw; } /* 모바일에서는 조금 더 잘 보이게 조정 */
         }
     </style>
 </head>
 <body>
     <canvas id="bgCanvas"></canvas>
+
+    <!-- 좌측 상단 달 이미지 -->
+    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/FullMoon2010.jpg" alt="Moon" class="top-left-moon">
 
     <div class="container">
         <h1>MOON</h1>

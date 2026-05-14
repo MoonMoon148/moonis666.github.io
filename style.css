@@ -1,20 +1,33 @@
-/* 개인정보 동의 오버레이 스타일 */
 #privacy-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: white;
+    background: rgba(0, 0, 0, 0.95); /* 배경보다 약간 더 진하게 */
     z-index: 9999;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    backdrop-filter: blur(15px); /* 배경 흐리게 */
 }
 
-#privacy-overlay button {
-    padding: 10px 20px;
-    margin: 5px;
+#privacy-overlay h2 { color: white; margin-bottom: 20px; }
+#privacy-overlay p { color: #ccc; margin-bottom: 30px; line-height: 1.6; }
+
+.btn-group button {
+    padding: 12px 35px;
+    margin: 0 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.3);
+    background: transparent;
+    color: white;
     cursor: pointer;
-} 
+    transition: 0.3s;
+}
+
+.btn-group button:hover {
+    background: white;
+    color: black;
+}

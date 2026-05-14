@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MOON</title>
+    <!-- 외부 스타일시트 연결 (style.css 또는 스타일.css) -->
+    <link rel="stylesheet" href="style.css">
     <style>
+        /* 기존 스타일 유지 */
         body {
             margin: 0;
             padding: 0;
@@ -28,16 +31,15 @@
             z-index: -1;
         }
 
-        /* 좌측 상단 달 이미지 설정 */
         .top-left-moon {
             position: fixed;
             top: 20px;
             left: 20px;
-            width: 5vw; /* 화면 너비의 5% */
-            min-width: 40px; /* 너무 작아지지 않게 최소 크기 설정 */
+            width: 5vw;
+            min-width: 40px;
             height: auto;
             z-index: 2;
-            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3)); /* 은은한 달빛 효과 */
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
             opacity: 0.8;
         }
 
@@ -97,11 +99,21 @@
         @media (max-width: 480px) {
             h1 { font-size: 2.8rem; letter-spacing: 8px; }
             li { padding: 18px; font-size: 1rem; }
-            .top-left-moon { width: 10vw; } /* 모바일에서는 조금 더 잘 보이게 조정 */
+            .top-left-moon { width: 10vw; }
         }
     </style>
 </head>
 <body>
+    <!-- 1. 개인정보 동의 창 (최상단 배치) -->
+    <div id="privacy-overlay">
+        <h2>개인정보 수집 동의</h2>
+        <p>본 사이트는 서비스 개선을 위해 개인정보를 수집할 수 있습니다.<br>동의하십니까?</p>
+        <div class="btn-group">
+            <button onclick="agree(true)">YES</button>
+            <button onclick="agree(false)">NO</button>
+        </div>
+    </div>
+
     <canvas id="bgCanvas"></canvas>
 
     <!-- 좌측 상단 달 이미지 -->
@@ -119,6 +131,7 @@
         </ol>
     </div>
 
+    <!-- 기존 캔버스 애니메이션 스크립트 -->
     <script>
         const canvas = document.getElementById('bgCanvas');
         const ctx = canvas.getContext('2d');
@@ -162,5 +175,8 @@
         init();
         animate();
     </script>
+
+    <!-- 2. 동의 로직 자바스크립트 연결 (맨 아래) -->
+    <script src="script.js"></script>
 </body>
 </html>
